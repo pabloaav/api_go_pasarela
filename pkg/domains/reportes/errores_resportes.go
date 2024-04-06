@@ -1,0 +1,28 @@
+package reportes
+
+const (
+	ERROR_CONSULTAR_PAGOS                      = "error al consultar pagos"
+	ERROR_CONVERTIR_FECHA                      = "error al convertir fechas en reportes a clientes"
+	ERROR_CONSULTAR_CIERRELOTE_PRISMA          = "error al consultar cierre lote prisma"
+	ERROR_CONSULTAR_CIERRELOTE_OFFLINE         = "error al consultar cierre lote offline"
+	ERROR_CONSULTAR_CIERRELOTE_APILINK         = "error al consultar cierre lote apilink"
+	ERROR_CONVERSION_DATO                      = "error al convertir datos a clientes"
+	ERROR_FORMATO_REGISTRO_CABECERA_ARCHIVO    = "error en el formato de cabecera archivo"
+	ERROR_FORMATO_REGISTRO_CABECERA_LOTE       = "error en el formato de cabecera lote"
+	ERROR_FORMATO_REGISTRO_DETALLE_TRANSACCION = "error en el formato de detalle transaccion"
+	ERROR_FORMATO_REGISTRO_DETALLE_DESCRIPCION = "error en el formato de detalle descripción"
+	ERROR_FORMATO_REGISTRO_COLA_ARCHIVO        = "error en el formato de cola archivo"
+	ERROR_CREAR_ARCHIVO_TXT                    = "error en el formato de cola archivo"
+	ERROR_CONSULTAR_LOTES                      = "error al consultar lotes"
+	ERROR_GUARDAR_LOTES                        = "error al guardar los movimientos lotes"
+	ERROR_CREAR_MOVIMIENTOS_LOTES              = "error al crear los movimientos lotes"
+	ERROR_BAJAR_MOVIMIENTOS_LOTES              = "error al dar de bajas los movimientos lotes"
+	ERROR_CREAR_MOVIMIENTOS_LIQUIDACIONES      = "error al crear movimientos liquidaciones"
+	ERROR_MOVIMIENTOS_COMISIONES               = "error al consultar el reporte de movimientos-comisiones"
+	ERROR_COBRANZAS_CLIENTES                   = "error al consultar el reporte de cobranzas de cliente"
+	ERROR_RENDICIONES_CLIENTES                 = "error al consultar el reporte de rendiciones de cliente"
+	ERROR_PAGO_ESTADO_ID                       = "error al obtener estado pago aprobado"
+	ERROR_PAGO_ESTADO_ID_AUTORIZADO            = "error al obtener estado pago autorizado"
+	ERROR_CREAR_REGISTRO_REPORTE               = "error al guardar registros de reportes clientes"
+	ERROR_CONSULTAR_CUENTA                     = "error al consultar por cuenta"
+)

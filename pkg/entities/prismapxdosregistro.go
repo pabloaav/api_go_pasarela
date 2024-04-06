@@ -1,0 +1,85 @@
+package entities
+
+import "gorm.io/gorm"
+
+type Prismapxdosregistro struct {
+	gorm.Model
+	PrismapxcuatroregistrosId uint `gorm:"column:prismapxcuatroregistros_id"`
+	Eclq02llEmpresa           string
+	Eclq02llFpres             string
+	Eclq02llTiporeg           string
+	Eclq02llMoneda            string
+	Eclq02llNumcom            string
+	Eclq02llNumest            string
+	Eclq02llNroliq            string
+	Eclq02llFpag              string
+	Eclq02llTipoliq           string
+	Eclq02llImpbruto          string
+	Eclq02llSigno_1           string
+	Eclq02llImppret           string
+	Eclq02llSigno_2           string
+	Eclq02llImpneto           string
+	Eclq02llSigno_3           string
+	Eclq02llRetesp            string
+	Eclq02llSigno_4           string
+	Eclq02llRetivaEsp         string
+	Eclq02llSigno_5           string
+	Eclq02llPercepBa          string
+	Eclq02llSigno_6           string
+	Eclq02llRetivaD1          string
+	Eclq02llSigno_7           string
+	Filler1                   string
+	Filler2                   string
+	Eclq02llCargoPex          string
+	Eclq02llSigno_9           string
+	Eclq02llRetivaPex1        string
+	Eclq02llSigno_10          string
+	Filler3                   string
+	Filler4                   string
+	Eclq02llCostoCuoemi       string
+	Eclq02llSigno_12          string
+	Eclq02llRetivaCuo1        string
+	Eclq02llSigno_13          string
+	Filler5                   string
+	Filler6                   string
+	Eclq02llImpServ           string
+	Eclq02llSigno_15          string
+	Eclq02llIva1Xlj           string
+	Eclq02llSigno_16          string
+	Filler7                   string
+	Filler8                   string
+	Eclq02llCargoEdcE         string
+	Eclq02llSigno_18          string
+	Eclq02llIva1EdcE          string
+	Eclq02llSigno_19          string
+	Filler9                   string
+	Filler10                  string
+	Eclq02llCargoEdcB         string
+	Eclq02llSigno_21          string
+	Eclq02llIva1EdcB          string
+	Eclq02llSigno_22          string
+	Filler11                  string
+	Filler12                  string
+	Eclq02llCargoCitE         string
+	Eclq02llSigno_24          string
+	Eclq02llIva1CitE          string
+	Eclq02llSigno_25          string
+	Filler13                  string
+	Filler14                  string
+	Eclq02llCargoCitB         string
+	Eclq02llSigno_27          string
+	Eclq02llIva1CitB          string
+	Eclq02llSigno_28          string
+	Filler15                  string
+	Filler16                  string
+	Eclq02llRetIva            string
+	Eclq02llSigno_30          string
+	Eclq02llRetGcias          string
+	Eclq02llSigno_31          string
+	Eclq02llRetIngbru         string
+	Eclq02llSigno_32          string
+	Filler17                  string
+	Filler18                  string
+	Filler19                  string
+	Eclq02llAster             string
+}

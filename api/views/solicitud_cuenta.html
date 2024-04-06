@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solicitud Cuenta</title>
+  </head>
+
+  <body style="font-family: sans-serif">
+    <p><b>Información de solicitud de cuenta:</b></p>
+    <ul class="list-group">
+      <li class="list-group-item" style="margin-bottom: 5px">
+        Cliente: {{.Nombre}} {{.Apellido}}
+      </li>
+      <li class="list-group-item" style="margin-bottom: 5px">
+        Razón Social: {{.Razonsocial}}
+      </li>
+      <li class="list-group-item" style="margin-bottom: 5px">
+        Email: {{.Email}}
+      </li>
+      <li class="list-group-item" style="margin-bottom: 5px">
+        Cuit: {{.Cuit}}
+      </li>
+      <li class="list-group-item" style="margin-bottom: 5px">
+        Teléfono: {{.Telefono}}
+      </li>
+    </ul>
+  </body>
+</html>

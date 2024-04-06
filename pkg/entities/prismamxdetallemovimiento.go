@@ -1,0 +1,69 @@
+package entities
+
+import "gorm.io/gorm"
+
+type Prismamxdetallemovimiento struct {
+	gorm.Model
+	PrismamxtotalesmoviminetosId uint `gorm:"column:prismamxtotalesmovimientos_id"`
+	Empresa                      string
+	Fechapresentacion            string
+	Tiporeg                      string
+	Numcom                       string
+	Numest                       string
+	Codop                        string
+	Tipoaplic                    string
+	Lote                         string
+	Codbco                       string
+	Codcasa                      string
+	Bcoest                       string
+	Bcocasa                      string
+	Numtar                       string
+	ForigCompra                  string
+	Fechapag                     string
+	Numcomp                      string
+	Importe                      string
+	Signo                        string
+	Numaut                       string
+	Numcuot                      string
+	Plancuot                     string
+	RecAcep                      string
+	RechPrint                    string
+	RechSecun                    string
+	ImpPlan                      string
+	Signo1                       string
+	McaPex                       string
+	Nroliq                       string
+	CcoOrigen                    string
+	CcoMotivo                    string
+	IdCargoliq                   string
+	Moneda                       string
+	PromoBonifUsu                string
+	PromoBonifEst                string
+	IdPromo                      string
+	MovImporig                   string
+	SgImporig                    string
+	IdCf                         string
+	CfExentoIva                  string
+	Dealer                       string
+	CuitEst                      string
+	FechapagAjuLqe               string
+	CodMotivoAjuLqe              string
+	IdentifNroFactura            string
+	PorcdtoArancel               string
+	Arancel                      string
+	SignoArancel                 string
+	TnaCf                        string
+	ImporteCostoFin              string
+	SigImporteCostoFinanciero    string
+	IdTx                         string
+	Agencia                      string
+	TipoPlan                     string
+	BanderaEst                   string
+	Subcodigo                    string
+	Filler                       string
+	CcoMotivoMc                  string
+	NumtarXl                     string
+	NumautXl                     string
+	Filler1                      string
+	IdFinRegistro                string
+}

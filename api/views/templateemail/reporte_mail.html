@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mensaje de reporte de Wee.ar!</title>
+
+</head>
+
+
+<body style="width: 60%;margin-left: auto;margin-right: auto;">
+
+    <tr>
+        <td role="modules-container" style="padding:0px 0px 0px 0px;color:#353b46;text-align:left" width="100%" bgcolor="#FFFFFF" align="left">
+          <table role="module" style="display:none!important;opacity:0;color:transparent;height:0;width:0" width="100%" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td role="module-content">
+                  <br>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table role="module" style="table-layout:fixed" width="100%" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td style="font-size:6px;line-height:10px;padding:30px 40px 30px 40px;background-color:#00aeda;" valign="top" align="center"> <img style="display:block;text-decoration:none;font-family:Helvetica,arial,sans-serif;font-size:16px;max-width:25%!important;width:25%;height:auto!important" alt="" src="https://wee.ar/assets/img/logoCambiarWee.png" border="0" class="CToWUd" data-bit="iit"></td>
+              </tr>
+            </tbody>
+          </table>
+          <br/><br/>
+          <!-- <table role="module" style="table-layout:fixed" width="100%" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td role="module-content" valign="top" height="100%">
+                  <div style="margin:0px 16px;font-family:inherit;padding-right:16px;padding:25px 16px;background-color:#0059ff;border-bottom-right-radius:4px;border-bottom-left-radius:4px;text-align:center;border-top-right-radius:4px;border-top-left-radius:4px"></div>
+                </td>
+              </tr>
+            </tbody>
+          </table> -->
+          <table role="module" style="table-layout:fixed" width="100%" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td role="module-content" valign="top" height="100%">
+                  <div style="margin:0px 16px;font-family:inherit;padding-right:16px;padding:25px 16px;background-color:#eeeeee;border-bottom-right-radius:4px;border-bottom-left-radius:4px;text-align:center;border-top-right-radius:4px;border-top-left-radius:4px"><span style="font-family:inherit;color:#00aeda;font-size:20px"><strong style="font-weight:500">Reporte de {{.Totales.Titulo}} </strong></span></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <table role="module" style="table-layout:fixed;margin-left:16px" width="100%" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td style="width:34px"><img src="https://pics.freeicons.io/uploads/icons/png/140023031643038491-512.png"  width="35" height="50" class="CToWUd" data-bit="iit"></td>
+                <td style="padding-left:16px"> <br>
+                    <p><span>{{.Nombre}}</span></p>
+                    <p>{{.Descripcion.Cliente}}</p>
+                    <p>CUIT:
+                    {{.Descripcion.Cuit}}</p>
+                </td>
+                      
+              </tr>
+            </tbody>
+          </table>
+          <table role="module" style="table-layout:fixed;margin-left:16px" width="100%" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>               
+                <td role="module-content" style="width:34px"><img src="https://pics.freeicons.io/uploads/icons/png/18926224961656255413-512.png" width="35" height="35" class="CToWUd" data-bit="iit"></td>
+                <td style="padding-left:16px">
+                    <p>
+                    Informamos {{.Totales.Elemento}} {{.Totales.TipoReporte}} el <strong>{{.Descripcion.Fecha}}</strong></p>
+                </td>
+                </tr>
+                </tbody>
+          </table>
+          <br/>
+          <!-- Detalles  -->
+            <!-- <table role="module" style="table-layout:fixed;margin-left:16px" width="100%" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+                <tr >
+                        <th style="padding: 0 15px 10px 0;">Descripción</th>
+                        <th style="padding: 0 15px;">Cantidad</th>
+                        <th style="padding: 0 0 0 15px;" >Monto</th>
+                </tr>
+                {{range .Descripcion.Detalles}}
+                <tr>
+                    <td style="padding: 5px 15px 5px 0;">{{ .Descripcion }}</td>
+                    <td style="padding: 0 15px;">{{ .Cantidad }}</td>
+                    <td style="padding: 0 0 0 15px;" >{{ .Monto }}</td>
+                </tr>
+                {{end}}       
+            </tbody>
+          </table> -->
+          <table role="module" style="table-layout:fixed;margin-left:16px" width="100%" cellspacing="0" cellpadding="0" >
+            <tbody>
+              <tr>
+                <td role="module-content" valign="top" height="100%"><br>
+                    Cantidad de transacciones: {{.Totales.Cantidad}}
+                </td>
+            </tr>
+            <tr>
+                <td role="module-content" valign="top" height="100%"><br>
+                  {{if .Totales.TotalCobrado}}
+                    Total cobrado $: {{.Totales.TotalCobrado}}
+                  {{end}}
+                </td>
+            </tr>
+            <tr>
+                <td role="module-content" valign="top" height="100%"><br>
+                  {{if .Totales.TotalRendido}}
+                    Total rendido $: {{.Totales.TotalRendido}}
+                  {{end}}
+                </td>            
+            </tr>              
+            </tbody>
+          </table>
+          <br/><br/>
+          <table role="module" style="table-layout:fixed" width="100%" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td role="module-content" valign="top" height="100%">
+                  <div style="margin:0px 16px;font-family:inherit;padding-right:16px;padding:25px 16px;background-color:#eeeeee;border-bottom-right-radius:4px;border-bottom-left-radius:4px;text-align:center;border-top-right-radius:4px;border-top-left-radius:4px"><span style="font-family:inherit;color:#0050f5;font-size:20px"><strong style="font-weight:500"></strong></span></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+</body>
+
+</html>

@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+  <!-- <link href="/css/materialdesignicons.min.css" rel="stylesheet"> -->
+  <!-- <link rel="stylesheet" href="/css/all.min.css"> -->
+  <!-- <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet"> -->
+  <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+  <link href="/css/vuetify.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/loader.css">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <script src="/js/vue.js"></script>
+  <script src="/js/vuex.js"></script>
+  <script src="/js/vuetify.js"></script>
+  <!-- <link rel="shortcut icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="shortcut icon" type="image/png" href="/favicon.png" /> -->
+  <link rel="shortcut icon" type="image/ico" href="/favicon.ico" />
+  <title>Wee! Checkout</title>
+
+  <script>
+    var model = {
+      costoFinanciero: 0,
+      importePagar: 0,
+      cargando: {
+        isLoading: false,
+      },
+      product: {
+        external_reference: "${ .external_reference }",
+        description: "${ .description }",
+        due_date: "${ .due_date }",
+        second_due_date: "${ .second_due_date }" === 'true' ? true : false,
+        total: "${ .first_total }"
+      },
+      payer: {
+        name: "${ .payer_name }",
+        payer_email: "${ .payer_email }",
+        idType: "dni",
+        idNumber: "",
+      },
+      pay: {
+        uuid: "${ .uuid }",
+        estado: "${ .estado }",
+        created_at: "${ .created_at }",
+        back_url_success: "${ .back_url_success }",
+        back_url_pending: "${ .back_url_pending }",
+        back_url_rejected: "${ .back_url_rejected }",
+        included_channels: "${ .included_channels }",
+        included_installments: "${ .included_installments }",
+        currentStep: 0,
+        paymentMethod: 0,
+        items: "${ .items }"
+      },
+      cards: {
+        lista: [
+          {
+            cardId: 1,
+            nombre: '',
+            regExp: '',
+            longPan: 19,
+            longCvv: 3,
+            channelId: 1,
+          }
+        ],
+        seleccionada: {
+          ID: 1,
+          mediopago: '',
+          regexp: '',
+          longitud_pan: 19,
+          longitud_cvv: 3,
+        }
+      },
+      form: {
+        channel: "",
+        holder_name: "",
+        holder_email: "${ .payer_email }",
+        holder_docType: "DNI",
+        holder_docNum: "",
+        holder_cuit: "",
+        card_brand: "",
+        card_number: "",
+        card_expiration: "",
+        card_month: "",
+        card_year: "",
+        card_code: "",
+        cbu: "",
+        alias: "",
+        installments: "1",
+        installment_details_id: 1,
+        uuid: "",
+        id: "",
+        es_cuenta_propia: false,
+        concepto_abreviado: "VAR",
+        tiempo_expiracion: 0,
+        importe: 0,
+        moneda: "ARS",
+        recurrente: false,
+        descripcion_prestacion: ""
+      },
+      formErrors: {
+        holder_name: "",
+        holder_docType: "",
+        holder_docNum: "",
+        holder_cuit: "",
+        card_brand: "",
+        card_number: "",
+        card_expiration: "",
+        card_code: "",
+        cbuoalias: "",
+        cbu: "",
+        alias: "",
+        installments: "",
+        uuid: "",
+        es_cuenta_propia: "",
+        concepto_abreviado: ""
+      },
+      prisma: {
+        status: true,
+        message: ""
+      },
+      debin: {
+        channel: "debin",
+        cbuoalias: "cbu",
+      },
+      resultado: {
+        id: 0,
+        estado: "",
+        channel: "",
+        description: "",
+        first_due_date: "",
+        first_total: 0,
+        second_due_date: "",
+        second_total: 0,
+        payer_name: "",
+        payer_email: "",
+        external_reference: "",
+        metadata: "",
+        uuid: "",
+        pdf_url: "",
+        created_at: "",
+        isLoading: false,
+        status: true,
+        message: "",
+        importe_pagado: 0,
+      },
+      cuotas: [
+        {
+          id: 1,
+          descripcion: "telco",
+          installmentdetail: [
+            {
+              installments_id: 1,
+              cuota: 1,
+              tna: 0,
+              tem: 0,
+              coeficiente: 1
+            }
+          ],
+        }
+      ],
+      preferences: {
+        client: "${ .preferences.client }" || "wee",
+        mainColor: "${ .preferences.mainColor }" || '#8c03e5',
+        secondaryColor: "${ .preferences.secondaryColor }" || '#00dbe9',
+        logo: "${ .preferences.logo }" || "/imgs/wee_por_telco.png",
+      }
+      // preferences: {}
+    }
+  </script>
+</head>
+
+<style>
+  .v-badge__badge {
+    margin-left: 12px !important;
+  }
+
+  .theme--light.v-tabs-items {
+    background-color: transparent !important;
+  }
+
+  .theme--light.v-card.v-card--flat.v-sheet {
+    background-color: transparent !important;
+  }
+
+  table tr>td {
+    border-top: var(--border-top);
+    /* background: var(--background) */
+  }
+
+  .v-tabs-slider {
+    background: var(--background);
+  }
+
+  h1 {
+    background: var(--background);
+    border-radius: var(--border-radius);
+    font-weight: var(--font-weight);
+  }
+
+  #app {
+    background-image: var(--background-image);
+  }
+</style>
+
+<body>
+  <div id="vapp">
+    <v-app :style="getCssBackgroundPref">
+      <v-main>
+        <v-container fluid>
+          <!-- card checkout -->
+          <div v-if="this.cargando.isLoading">
+            <loader object="#0ae65e" color1="#ffffff" color2="#17fd3d" size="5" speed="2" bg="#343a40"
+              objectbg="#999793" opacity="80" disableScrolling="false" name="circular"></loader>
+          </div>
+          <v-card id="main_card" class="pa-5 mx-auto rounded-lg" elevation="4" max-width="1200" color="#E6E6E6">
+            <v-row>
+              <v-col cols="12" sm="4">
+                <v-card elevation="2" class="mb-3 px-0" style="border-radius: 16px;">
+                  <v-card-text class="px-0">
+                    <div height="120" class="text-center">
+
+                      <div class="pb-5 px-5">
+
+                        <!-- <v-img src="/imgs/wee_por_telco.png" max-height="125" contain></v-img> -->
+                        <v-img :src="getLogoClientPref" max-height="125" contain v-cloak></v-img>
+
+                      </div>
+                    </div>
+
+                    <div class="px-5">
+                      <h1 class="white--text text-center pa-4" v-cloak :style="getCssAmountPref">
+                        {{toPesos($store.state.importePagar)}}
+                      </h1>
+                    </div>
+
+
+                    <div class="pa-4 mx-auto text-center">
+                      <p class="text-body-2" v-cloak>Compartir el link de pago:</p>
+                      <v-btn small depressed class="my-1" @click.prevent="enviarWhatsap" v-cloak>
+                        <v-icon dark class="mr-2" v-cloak>fab fa-whatsapp</v-icon>
+                        Enviar
+                      </v-btn>
+                      <v-btn small depressed class="my-1" @click.prevent="enviarEmail" v-cloak>
+                        <v-icon dark class="mr-2" v-cloak>far fa-envelope</v-icon>
+                        Enviar
+                      </v-btn>
+                      <v-btn small depressed class="my-1" @click.prevent="copiarPortapapeles" v-cloak>
+                        <v-icon dark class="mr-2" v-cloak>far fa-copy</v-icon>
+                        Copiar
+                      </v-btn>
+                    </div>
+                  </v-card-text>
+                </v-card>
+                <v-card elevation="2" class="pa-2" style="border-radius: 16px;">
+                  <v-card-text>
+                    <div class="px-4">
+                      <p class="text-body-2" v-cloak>Referencia: ${ .external_reference }</p>
+                      <p class="text-body-2" v-cloak>Concepto: ${ .description }</p>
+                      <p class="text-body-2" v-cloak>Nombre: ${ .payer_name }</p>
+                    </div>
+                    <v-divider></v-divider>
+                    <v-simple-table :style="getCssTablePref" fixed-header max-height="200px">
+                      <template v-slot:default>
+                        <thead>
+                          <th>Cantidad</th>
+                          <th style="text-align:center">Descripcion</th>
+                          <th>Monto</th>
+                        </thead>
+                        <tbody>
+                          <tr v-for="item in items">
+                            <td class="text-center">{{item.quantity}}</td>
+                            <td>{{item.description}}</td>
+                            <td class="text-right">{{toPesos(item.amount)}}</td>
+                          </tr>
+                        </tbody>
+                      </template>
+                    </v-simple-table>
+
+                  </v-card-text>
+                </v-card>
+              </v-col>
+              <v-col cols="12" sm="8">
+                <v-card id="payment_card" class="mb-3 px-0" style="border-radius: 16px;">
+
+                  <v-tabs slider-color="red" v-model="pay.currentStep" background-color="transparent" icons-and-text
+                    grow>
+                    <v-tabs-slider :style="getCssTabSliderPref"></v-tabs-slider>
+                    <v-tab :disabled="pay.currentStep != 0" v-cloak>
+                      Método de Pago
+                      <v-icon>fas fa-credit-card</v-icon>
+                    </v-tab>
+                    <v-tab :disabled="pay.currentStep != 1" v-cloak>
+                      Datos Personales
+                      <v-icon>fas fa-id-card</v-icon>
+                    </v-tab>
+                    <v-tab :disabled="pay.currentStep < 2" v-cloak>
+                      Comprobante
+                      <v-icon>fas fa-receipt</v-icon>
+                    </v-tab>
+                    <v-tabs-items touchless v-model="pay.currentStep">
+                      <v-tab-item>
+                        <v-card flat>
+                          <pick-method></pick-method>
+                        </v-card>
+                      </v-tab-item>
+                      <v-tab-item>
+                        <v-card flat>
+                          <card-form v-on:emit-clear="limpiarFormularios" ref="formularioCreditCard"
+                            v-show="pay.paymentMethod == 1"></card-form>
+                            <debit-form v-on:emit-clear="limpiarFormularios" ref="formularioDebit"
+                              v-show="pay.paymentMethod == 2"></debit-form>
+                            <offline-form v-on:emit-clear="limpiarFormularios" ref="formularioOffline"
+                            v-show="pay.paymentMethod == 3"></offline-form>
+                            <debin-form v-on:emit-clear="limpiarFormularios" ref="formularioDebin"
+                            v-show="pay.paymentMethod == 4"></debin-form>
+                        </v-card>
+                      </v-tab-item>
+                      <v-tab-item>
+                        <v-card flat>
+                          <result-card v-on:emit-clear="limpiarFormularios"></result-card>
+                        </v-card>
+                      </v-tab-item>
+                    </v-tabs-items>
+                  </v-tabs>
+
+                </v-card>
+
+                <v-card v-if="checkVencimiento">
+                  <v-alert dismissible border="left" color="rgba(82,170,189,1)" dark icon="mdi-clock-fast" dense
+                    prominent elevation="11" v-cloak>
+                    Usted esta por pagar el segundo vencimiento {{this.product.due_date}}
+                  </v-alert>
+                </v-card>
+
+              </v-col>
+
+              <div v-if="!getIfClientCheckoutWee" class="d-inline-flex mr-auto align-center">
+                <p style="color: #696969b5;margin-bottom: 0px;font-size: small;font-style: italic;font-weight: 500;">
+                  Desarrollado por</p>
+                <a href="https://wee.ar" target="_blank">
+                  <v-img src="/imgs/wee_de_telco.png" max-width="50px" contain v-cloak></v-img>
+                </a>
+              </div>
+
+            </v-row>
+          </v-card>
+          <v-snackbar v-model="snackbar" :timeout="timeout" color="primary" v-cloak>
+            El <strong> enlace </strong> del pago fue copiado al portapapeles
+            <template v-slot:action="{ attrs }">
+              <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+                cerrar
+              </v-btn>
+            </template>
+          </v-snackbar>
+          <!-- end card checkout -->
+        </v-container>
+      </v-main>
+      <v-footer class="absolute" padless text-center color="transparent">
+        <v-card flat tile class="flex text-center" color="transparent">
+          <v-card-text v-cloak>
+            <!-- @{{ new Date().getFullYear() }} — <strong>TelCo</strong> — Corrientes Telecomunicaciones -->
+          </v-card-text>
+        </v-card>
+      </v-footer>
+    </v-app>
+  </div>
+  <script src="/js/store.js"></script>
+  <script src="/js/card_form.js"></script>
+  <script src="/js/debit_form.js"></script>
+  <script src="/js/offline_form.js"></script>
+  <script src="/js/debin_form.js"></script>
+  <script src="/js/result_card.js"></script>
+  <script src="/js/pick_method.js"></script>
+  <script src="/js/info_cuotas.js"></script>
+  <script src="/js/cuotas_detail.js"></script>
+  <script src="/js/loader.umd.min.js"></script>
+  <script>
+    const options = {
+      theme: {
+        themes: {
+          light: { primary: "#696F73" },
+        },
+      },
+    }
+    const vueApp = new Vue({
+      el: '#vapp',
+      vuetify: new Vuetify(options),
+      store,
+      components: {
+        loader: loader
+      },
+      data: {
+        showModal: false,
+        tab: null,
+        load: false,
+        snackbar: false,
+        timeout: 2000,
+      },
+      computed: {
+        ...mapState(['pay', 'payer', 'product', 'cargando', 'preferences']),
+        ...mapGetters(["getIfClientCheckoutWee", "getCssAmountPref", "getCssBackgroundPref", "getCssMainColorPref", "getCssTablePref", "getCssTabSliderPref", "getLogoClientPref"]),
+        items() {
+          return JSON.parse(this.pay.items)
+        },
+        // Devuelve la cantidad de canales para un pago determinado
+        includedChannelsLength() {
+          let channels = this.pay.included_channels.slice(1, -1)
+          let arrayChannels = channels.split(" ")
+          return arrayChannels.length
+        },
+        checkVencimiento() {
+          return this.product.second_due_date
+        },
+
+
+      },
+
+      mounted() {
+        this.cargando.isLoading = true;
+        // Las funciones dispatches se ejecutan cuando se carga la vue. Sirve para pedir datos al backend.
+        // Ejecutan funciones asincronas en el objeto actions del Store
+        this.$store.dispatch('checkPrisma')
+        this.$store.dispatch('getTarjetas')
+        this.$store.dispatch('getPlandeCuotas').then(() => {
+          this.mostrarUnicoMetodoPago()
+          this.cargando.isLoading = false;
+        })
+        this.$store.dispatch('getCostoFinanciero')
+        // Esto se hace porque el importe a pagar al montarse en el componente principal es el importe total del producto
+        this.$store.state.importePagar = this.product.total
+      },
+      methods: {
+        mostrarUnicoMetodoPago() {
+          if (this.checkIfOnlyOnePaymentMethod()) {
+            let channel = this.pay.included_channels.slice(1, -1)
+            this.pay.paymentMethod = this.paymentMethodNumber(channel)
+            this.pay.currentStep = 1
+          }
+        },
+        // En base a los included_channels retorna su numero o id de
+        paymentMethodNumber(method) {
+          const expr = method;
+          switch (expr) {
+            case 'CREDIT':
+              return 1;
+              break;
+            case 'DEBIT':
+              return 2;
+              break;
+            case 'OFFLINE':
+              return 3;
+              break;
+            case 'DEBIN':
+              return 4;
+              break;
+            default:
+              return 1
+          }
+        },
+        getUniquePaymentMethod() { },
+        checkIfOnlyOnePaymentMethod() {
+          return this.includedChannelsLength === 1
+        },
+        limpiarFormularios() {
+          this.$refs.formularioDebin.$refs.debinform.resetValidation()
+          this.$refs.formularioDebin.nombre_titular = ""
+
+          this.$refs.formularioCreditCard.$refs.cardform.resetValidation()
+          this.$refs.formularioCreditCard.nombre_titular = ""
+
+          this.$refs.formularioDebit.$refs.debitform.resetValidation()
+          this.$refs.formularioDebit.nombre_titular = ""
+
+          this.$refs.formularioOffline.$refs.offlineform.resetValidation()
+          this.$refs.formularioOffline.nombre_titular = ""
+
+        },
+        redirigiraTelco() {
+          var message = "https://telco.com.ar"
+          window.open(message, "_blank")
+        },
+        enviarWhatsap() {
+          var message = "${ .base_url }" + "/checkout/" + this.pay.uuid
+          window.open("https://wa.me/?text=" + message, "_blank")
+        },
+        enviarEmail() {
+          var message = "mailto:?subject=Pagos&body=" + "${ .base_url }" + "/checkout/" + this.pay.uuid
+          window.open(message, "_blank")
+        },
+        copiarPortapapeles() {
+          var message = "${ .base_url }" + "/checkout/" + this.pay.uuid
+          // Se necesita hacer esto para acceder dentro de la funcion a la data del component
+          var self = this;
+          navigator.clipboard.writeText(message).then(function () {
+            self.snackbar = true;
+          }, function () {
+            alert("No fue posible copiar el link intente otra opción");
+          });
+        },
+        getItems() {
+          itemList = JSON.parse(this.pay.items)
+          return itemList
+        },
+        toPesos(num) {
+          return Number(num).toLocaleString('es-ar', { style: 'currency', currency: 'ARS', minimumFractionDigits: 2 })
+        }
+      }
+    })
+  </script>
+
+</body>
+
+</html>

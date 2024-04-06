@@ -1,0 +1,18 @@
+html {
+  background: url(../imgs/error_view.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.hero.is-danger {
+  background-color: transparent;
+  color: #fff;
+}
+
+.hero.is-danger .title,
+.hero.is-danger .subtitle {
+  color: #71619c;
+  line-height: 1.5em;
+}
